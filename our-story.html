@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    <!-- Header Section -->
     <header class="header">
         <nav class="navbar">
             <a href="index.html" class="logo">Cosmic Connect</a>
             <ul class="nav-links">
-                <li><a href="our-story.html">About</a></li>
+                <li><a href="our-story.html" class="active">Our Story</a></li>
                 <li><a href="information.html">Membership</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- Main Content Section -->
     <main>
         <section class="about-section">
-            <h1>About Us</h1>
             <div id="aboutContent" class="about-content">
                 <!-- About content will be dynamically inserted here -->
                 <p>Loading...</p>
@@ -27,6 +28,7 @@
         </section>
     </main>
 
+    <!-- Footer Section -->
     <footer class="footer">
         <ul>
             <li><a href="#">Help</a></li>
@@ -36,32 +38,7 @@
         </ul>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const endpoint = "https://cors-anywhere.herokuapp.com/https://api.cosmic-connect.org/about"; // URL de la API
-
-            fetch(endpoint, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error fetching About content');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Insertar el contenido obtenido de la API en la página
-                const aboutContent = document.getElementById('aboutContent');
-                aboutContent.innerHTML = data.data.attributes.body?.value || '<p>No content available.</p>';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('aboutContent').innerHTML = '<p>Error loading content. Please try again later.</p>';
-            });
-        });
-    </script>
+    <!-- Include the about.js script -->
+    <script src="./js/about.js"></script>
 </body>
 </html>

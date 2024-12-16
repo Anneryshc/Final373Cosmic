@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Story</title>
+    <title>About - Cosmic Connect</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -11,41 +11,57 @@
         <nav class="navbar">
             <a href="index.html" class="logo">Cosmic Connect</a>
             <ul class="nav-links">
-                <li><a href="our-story.html" class="active">Our story</a></li>
+                <li><a href="our-story.html">About</a></li>
                 <li><a href="information.html">Membership</a></li>
-                <li><a href="#">Write</a></li>
-                <li><a href="#">Sign in</a></li>
-                <li><a href="#" class="btn-get-started">Get started</a></li>
             </ul>
         </nav>
     </header>
+
     <main>
-        <section class="our-story">
-            <h1>Our Story</h1>
-            <p>
-                Welcome to Cosmic Connect! Our journey began with a shared passion for exploring the mysteries of the universe. 
-                From celestial wonders to cutting-edge research, we aim to bring credible and awe-inspiring content to our readers. 
-                Join us as we delve into the cosmos and beyond.
-            </p>
-            <p>
-                Cosmic Connect is more than just a platform; it's a community for dreamers, thinkers, and explorers. Thank you for being a part of our story!
-            </p>
+        <section class="about-section">
+            <h1>About Us</h1>
+            <div id="aboutContent" class="about-content">
+                <!-- About content will be dynamically inserted here -->
+                <p>Loading...</p>
+            </div>
         </section>
-    
     </main>
+
     <footer class="footer">
         <ul>
             <li><a href="#">Help</a></li>
-            <li><a href="#">Status</a></li>
-            <li><a href="our-story.html">About</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><a href="our-story.html">Our Story</a></li>
             <li><a href="#">Privacy</a></li>
             <li><a href="#">Terms</a></li>
-            <li><a href="#">Text to speech</a></li>
-            <li><a href="#">Teams</a></li>
         </ul>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const endpoint = "https://cors-anywhere.herokuapp.com/https://api.cosmic-connect.org/about"; // URL de la API
+
+            fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching About content');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Insertar el contenido obtenido de la API en la página
+                const aboutContent = document.getElementById('aboutContent');
+                aboutContent.innerHTML = data.data.attributes.body?.value || '<p>No content available.</p>';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('aboutContent').innerHTML = '<p>Error loading content. Please try again later.</p>';
+            });
+        });
+    </script>
 </body>
 </html>

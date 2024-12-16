@@ -181,3 +181,24 @@ body {
 .footer nav a:hover {
     text-decoration: underline;
 }
+
+
+.article-content {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.article-content h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.article-content p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}

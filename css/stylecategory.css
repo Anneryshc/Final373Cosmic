@@ -111,11 +111,14 @@ body {
     width: 300px;
 }
 
-.news-card img {
+.news-image {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
+    height: 200px; /* Adjust as needed */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
 }
+
 
 .news-content {
     padding: 1rem;

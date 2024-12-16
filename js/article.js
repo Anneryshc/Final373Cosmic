@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const articleId = urlParams.get('id');
 
     if (!articleId) {
-        document.getElementById('articleBody').innerHTML = '<p>Article not found.</p>';
+        displayError('Article not found.');
         return;
     }
 
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mode: 'cors',
         credentials: 'include'
     })
-    
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => {
         console.error('Error fetching article:', error);
-        document.getElementById('articleBody').innerHTML = '<p>Error loading article. Please try again later.</p>';
+        displayError('Error loading article. Please try again later.');
     });
 });
 
@@ -36,9 +35,15 @@ function displayArticle(data) {
     const articleBody = document.getElementById('articleBody');
     const articleImage = document.getElementById('articleImage');
 
+    // Check if the data contains the necessary attributes
+    if (!data || !data.data || !data.data.attributes) {
+        displayError('Invalid article data.');
+        return;
+    }
+
     // Set article title and body
-    articleTitle.textContent = data.data.attributes.title;
-    articleBody.innerHTML = data.data.attributes.body?.value || 'No content available.';
+    articleTitle.textContent = data.data.attributes.title || 'Untitled Article';
+    articleBody.innerHTML = data.data.attributes.body?.value || '<p>No content available.</p>';
 
     // Check if the article has an image in the relationships
     if (data.data.relationships?.field_image?.data) {
@@ -48,8 +53,17 @@ function displayArticle(data) {
         if (image && image.attributes?.uri?.url) {
             const imageUrl = `https://api.cosmic-connect.org${image.attributes.uri.url}`;
             articleImage.src = imageUrl;
+            articleImage.alt = data.data.attributes.title || 'Article Image';
             articleImage.style.display = 'block'; // Show the image once it is set
+        } else {
+            articleImage.style.display = 'none'; // Hide the image if not found
         }
+    } else {
+        articleImage.style.display = 'none'; // Hide the image if no image relationship exists
     }
 }
 
+function displayError(message) {
+    const articleBody = document.getElementById('articleBody');
+    articleBody.innerHTML = `<p style="color: red; text-align: center;">${message}</p>`;
+}
